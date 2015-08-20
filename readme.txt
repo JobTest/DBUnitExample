@@ -1,0 +1,1 @@
+Create MySQL database 'dbunit_database' and user for this database. User and password can be changed in src/main/resources/application-prod.properties.  

@@ -1,0 +1,41 @@
+import java.sql.Wrapper
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'war'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+version = '1.0'
+
+eclipse {
+	classpath {
+		downloadSources = true
+    	downloadJavadoc = true
+	}
+}
+
+repositories {
+    mavenCentral()
+    maven {
+    	url "http://www.hsqldb.org/repos/"
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.8.1'
+    testCompile 'org.dbunit:dbunit:2.4.8'
+    testCompile 'org.springframework:spring-test:3.1.2.RELEASE'
+    testCompile 'org.hsqldb:hsqldb:2.2.9'
+    compile 'org.slf4j:slf4j-log4j12:1.6.6'
+    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.0.Final'
+    compile 'org.springframework:spring-orm:3.1.2.RELEASE'
+    compile 'cglib:cglib:2.2.2'
+    compile 'org.hibernate:hibernate-entitymanager:4.1.6.Final'
+    compile 'mysql:mysql-connector-java:5.1.21'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+	<table name="address" />
+	<table name="person">
+		<column>id</column>
+		<column>firstname</column>
+		<column>lastname</column>
+		<column>father</column>
+		<column>mother</column>
+		<row>
+			<value>1</value>
+			<value>Georgii</value>
+			<null />
+			<null />
+			<null />
+		</row>
+	</table>
+</dataset>
