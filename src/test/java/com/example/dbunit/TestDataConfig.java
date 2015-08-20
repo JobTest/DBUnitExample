@@ -44,6 +44,12 @@ public class TestDataConfig implements DataConfig {
 	@Autowired
 	private Environment env; // (нужен для возможности получать свойства из property файла)
 
+    // <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    //     <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+    //     <property name="url" value="jdbc:mysql://localhost/test" />
+    //     <property name="username" value="root" />
+    //     <property name="password" value="123654789" />
+    // </bean>
 	@Override
 	@Bean
 	public DataSource dataSource() {
