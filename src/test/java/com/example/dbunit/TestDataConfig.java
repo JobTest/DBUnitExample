@@ -2,10 +2,7 @@ package com.example.dbunit;
 
 import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -17,6 +14,27 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+/**
+ ** {@link http://devcolibri.com/3966}
+ *** {@link https://github.com/wizardjedi/my-spring-learning/wiki/Работа-с-базами-данных-на-основе-jpa}
+ * {@link http://devcolibri.com/3575}  {@link http://habrahabr.ru/post/140658/}  {@link https://github.com/springtestdbunit/spring-test-dbunit}
+ * Разберем аннотации DBUnit:
+ * @Configuration — говорит, что данный класс является Spring конфигурацией;
+ * @EnableTransactionManagement — включает TransactionManager для управления транзакциями БД; (это фабрика-менеджеров)
+ * @ComponentScan("com.devcolibri.dataexam") — указываем Spring где нужно искать Entity, DAO, Service и т.п.; (по сути это где определено AbstractAplicationContext...)
+ * @ContextConfiguration(classes = { ApplicationConfig.class }) — указываем Spring где нужно искать Entity, DAO, Service и т.п.; (по сути это где определено AbstractAplicationContext...)
+ * @PropertySource("classpath:app.properties") — подключаем файл свойств созданный выше;
+ * ( @EnableJpaRepositories("com.devcolibri.dataexam.repository") — включаем возможность использования JPARepository и говорим, где их искать. (это DAO) )
+ *
+ * @Repository - это уже реализация DAO
+ * @EnableTransactionManagement - это фабрика-менеджеров для DAO
+ *
+ * Дело в том что 'DBUnit' (наследуется от DBTestCase,JdbcBasedDBTestCase) имеет собственные спец.-классы которые уже умеют выполнять полное авто-тестирование базы и ее таблиц (IDataSet,IDatabaseTester), который является контейнером для сущности в несколько жизненных этапов...
+ * Сам же Spring имеет шаблоны (JpaTemplate,HibernateTemplate,JdbcTemplate) которые являются обверткой над JPA,Hibernate,JDBC. То есть:
+ * по сути наш DAO уже ненужно реализовывать, мы просто говорим что он является реализацией шаблона (JpaTemplate,HibernateTemplate,JdbcTemplate)
+ *
+ * И '@Transaction' стоит внутри класса-сервиса - который либо подтверждает либо откатывает список множеств запросов...
+ */
 @Configuration
 @PropertySource("classpath:/application-test.properties")
 @Profile("test")
@@ -24,7 +42,7 @@ import java.util.Properties;
 public class TestDataConfig implements DataConfig {
 
 	@Autowired
-	private Environment env;
+	private Environment env; // (нужен для возможности получать свойства из property файла)
 
 	@Override
 	@Bean
@@ -51,6 +69,7 @@ public class TestDataConfig implements DataConfig {
 		return bean;
 	}
 
+    //<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" />
 	@Override
 	@Bean
 	@Autowired
