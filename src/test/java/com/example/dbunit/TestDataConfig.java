@@ -69,7 +69,19 @@ public class TestDataConfig implements DataConfig {
 		return bean;
 	}
 
-    //<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" />
+    // <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    //     <property name="dataSource" ref="dataSource" />
+    //     <property name="packagesToScan" value="a1s.learn" />
+    //     <property name="jpaVendorAdapter">
+    //         <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+    //             <property name="showSql" value="true" />
+    //             <property name="database" value="MYSQL" />
+    //             <property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect" />
+    //         </bean>
+    //     <property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect" />
+    // </bean>
+    //
+    // <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" />
 	@Override
 	@Bean
 	@Autowired
